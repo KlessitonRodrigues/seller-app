@@ -29,5 +29,10 @@
     "vite": "^6.2.3",
     "vite-tsconfig-paths": "^5.1.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.1",
+    "antd": "^5.27.0",
+    "react-hook-form": "^7.62.0",
+    "zod": "^4.0.17"
+  }
 }

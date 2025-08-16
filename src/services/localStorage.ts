@@ -1,14 +1,14 @@
-export const saveStorage = (key: string, value: string) => {
+export const saveStorage = (key: string, value: any) => {
   try {
-    localStorage.setItem(key, value);
+    localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
     console.error("Error saving to localStorage", error);
   }
 };
 
-export const readStorage = (key: string): string | null => {
+export const readStorage = <T>(key: string): T | null => {
   try {
-    return localStorage.getItem(key);
+    return JSON.parse(localStorage.getItem(key) || "");
   } catch (error) {
     console.error("Error getting from localStorage", error);
     return null;

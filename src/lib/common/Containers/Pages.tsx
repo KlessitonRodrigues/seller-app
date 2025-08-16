@@ -7,12 +7,30 @@ export const DefaultPage = (props: IPage) => {
     <div
       {...props}
       className={twMerge(
-        `bg-gray-50 text-white min-w-screen min-h-screen ${props.className}`
+        `bg-gray-100 text-gray-700 min-w-screen min-h-screen ${props.className}`
+      )}
+    />
+  );
+};
+
+export const PageHeader = (props: IPage) => {
+  return (
+    <div
+      {...props}
+      className={twMerge(
+        `w-full bg-gray-50 mx-auto max-w-[80rem] ${props.className}`
       )}
     />
   );
 };
 
 export const PageContent = (props: IPage) => {
-  return <div {...props} className={twMerge(`p-4 ${props.className}`)} />;
+  return (
+    <div
+      {...props}
+      className={twMerge(
+        `w-full p-4 bg-gray-50 mx-auto max-w-[80rem] ${props.className}`
+      )}
+    />
+  );
 };

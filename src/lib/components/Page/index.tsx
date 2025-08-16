@@ -1,5 +1,10 @@
 import { PropsWithChildren, useEffect } from "react";
-import { DefaultPage, PageContent } from "src/lib/common/Containers/Pages";
+import {
+  DefaultPage,
+  PageContent,
+  PageHeader,
+} from "src/lib/common/Containers/Pages";
+import Header from "../Header";
 
 const Page = (props: PropsWithChildren) => {
   const { children } = props;
@@ -10,6 +15,9 @@ const Page = (props: PropsWithChildren) => {
 
   return (
     <DefaultPage>
+      <PageHeader>
+        <Header />
+      </PageHeader>
       <PageContent>{children}</PageContent>
     </DefaultPage>
   );
