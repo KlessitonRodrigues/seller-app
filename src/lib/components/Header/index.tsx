@@ -65,7 +65,7 @@ const Header = () => {
     <Row justify="between" className="bg-white">
       <Menu
         className="w-full"
-        style={{ fontSize: "1.2rem", padding: "0.5rem 1rem" }}
+        style={{ fontSize: "1.05rem", padding: "0.5rem 1rem" }}
         mode="horizontal"
         onClick={onClick}
         selectedKeys={[location.pathname]}

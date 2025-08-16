@@ -25,9 +25,10 @@ const LeadsSection = () => {
 
       <TabContainer>
         <Tabs
-          activeKey={menuItem}
           items={leadMenuItems}
+          activeKey={menuItem}
           onChange={setMenuItem}
+          style={{ marginBottom: "-0.4rem" }}
         />
         <If check={menuItem === "1"}>
           <LeadsTable />

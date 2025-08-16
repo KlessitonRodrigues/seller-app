@@ -8,14 +8,23 @@ type ICollapsibleTableProps = {
   loading?: boolean;
   columns?: ColumnsType<any>;
   pageSize?: number;
+  pageTotal?: number;
   page?: number;
   onPageChange?: (page: number, pageSize: number) => void;
   itemButtons?: (item: any) => React.ReactNode;
 };
 
 const CollapsibleTable = (props: ICollapsibleTableProps) => {
-  const { data, columns, loading, page, pageSize, onPageChange, itemButtons } =
-    props;
+  const {
+    data,
+    columns,
+    loading,
+    page,
+    pageSize,
+    pageTotal,
+    onPageChange,
+    itemButtons,
+  } = props;
   const [expandedRowKeys, setExpandedRowKeys] = useState<React.Key[]>([]);
 
   return (
@@ -25,22 +34,13 @@ const CollapsibleTable = (props: ICollapsibleTableProps) => {
       className="w-full"
       loading={loading}
       dataSource={data}
-      columns={[
-        ...(columns || []),
-        {
-          title: "Actions",
-          key: "actions",
-          align: "center",
-          width: 200,
-          render: (_, record) => (
-            <div className="flex justify-end gap-2">
-              {itemButtons ? itemButtons(record) : null}
-            </div>
-          ),
-          hidden: !itemButtons,
-        },
-      ]}
-      pagination={{ pageSize, current: page, onChange: onPageChange }}
+      columns={columns}
+      pagination={{
+        pageSize,
+        current: page,
+        total: pageTotal,
+        onChange: onPageChange,
+      }}
       expandable={{
         expandedRowRender: (record) => {
           return (
@@ -48,13 +48,16 @@ const CollapsibleTable = (props: ICollapsibleTableProps) => {
               <div className="divide-y">
                 {columns?.map((col: any) => (
                   <div
-                    className="flex gap-1 border-gray-300 py-2"
                     key={col.key}
+                    className="flex gap-1 border-gray-300 py-2"
                   >
                     <span className="opacity-50">{String(col.title)}:</span>
                     <span>{record[col.dataIndex]}</span>
                   </div>
                 ))}
+              </div>
+              <div className="flex gap-2">
+                {itemButtons ? itemButtons(record) : null}
               </div>
             </div>
           );

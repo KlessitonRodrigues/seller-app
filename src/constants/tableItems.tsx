@@ -11,13 +11,13 @@ export const leadTableItems: ColumnsType<ILead> = [
     title: "Email",
     dataIndex: "email",
     key: "email",
-    hidden: true,
+    responsive: ["md"],
   },
   {
     title: "Company",
     dataIndex: "company",
     key: "company",
-    hidden: true,
+    responsive: ["md"],
   },
   {
     title: "Source",
@@ -29,11 +29,13 @@ export const leadTableItems: ColumnsType<ILead> = [
     title: "Status",
     dataIndex: "status",
     key: "status",
+    responsive: ["md"],
   },
   {
     title: "Score",
     dataIndex: "score",
     key: "score",
+    responsive: ["md"],
     render: (score) => (score ? score.toString() : "-"),
   },
 ];

@@ -6,9 +6,9 @@ type ISelectionInput = {
   label?: string;
   error?: string;
   className?: string;
-  value?: string | number;
-  onChange?: (value: string | number, op: any) => void;
-  options: { key: string | number; label: string }[];
+  value?: string;
+  onChange?: (value: string, op: any) => void;
+  options: { key: string; label: string }[];
   noEmpty?: boolean;
   viewOnly?: boolean;
 };
@@ -26,7 +26,7 @@ const SelectInput = (props: ISelectionInput) => {
   } = props;
   return (
     <Label>
-      {label}
+      <b className="opacity-75">{label}</b>
       <Select
         allowClear={!noEmpty}
         className={twMerge(

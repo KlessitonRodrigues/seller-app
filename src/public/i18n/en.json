@@ -16,5 +16,24 @@
   "database_description": "Access our extensive database of products and services. Use the search function to find what you need.",
 
   "about_title": "About Us",
-  "about_description": "Learn more about our mission, vision, and values."
+  "about_description": "Learn more about our mission, vision, and values.",
+
+  "lead_menu_all_item": "All Leads",
+  "lead_menu_add_item": "Add Lead",
+  "lead_table_actions": "Actions",
+  "lead_search_placeholder": "Search leads by name or company",
+  "lead_table_no_data": "No leads found. Please add a lead to get started.",
+  "lead_table_edit_button": "Edit",
+  "lead_table_delete_button": "Delete",
+  "lead_form_title": "Create New Lead",
+  "lead_status_new": "New",
+  "lead_status_rejected": "Rejected",
+  "lead_status_pending": "Pending",
+  "lead_status_approved": "Approved",
+  "lead_score_low": "Low",
+  "lead_score_high": "High",
+  "lead_action_edit": "Editar",
+  "lead_action_delete": "Excluir",
+  "lead_action_make_opportunity": "New Opportunity",
+  "lead_action_refuse": "Refuse"
 }

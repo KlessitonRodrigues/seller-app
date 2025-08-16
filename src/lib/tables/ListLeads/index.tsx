@@ -1,67 +1,96 @@
 import { Button } from "antd";
 import { useEffect, useState } from "react";
-import { PiHandCoins, PiMagnifyingGlass, PiPen } from "react-icons/pi";
+import { PiCheck, PiPen, PiTrash, PiX } from "react-icons/pi";
+import { LeadScoreOptions, LeadStatusOptions } from "src/constants/optionList";
 import { leadTableItems } from "src/constants/tableItems";
+import useCommon from "src/hooks/useCommon";
 import { Column, Row } from "src/lib/common/Containers/Flex";
 import SelectInput from "src/lib/common/Inputs/SelectInput";
 import TextInput from "src/lib/common/Inputs/TextInput";
 import CollapsibleTable from "src/lib/common/Tables/CollapsibleTable";
+import Text, { getText } from "src/lib/common/Text/Text";
 import { ILead, listLeads } from "src/services/leads";
 
 const LeadsTable = () => {
+  const { query, queryDebounce, setQuery, ...hooks } = useCommon();
   const [leadList, setLeadList] = useState<ILead[]>();
+  const [leadStatus, setLeadStatus] = useState("");
+  const [leadScore, setLeadScore] = useState("");
 
   useEffect(() => {
-    listLeads().then((leads) => {
-      const leadOptions = leads.map((lead) => ({ ...lead, key: lead.id }));
+    const leadFilters = {
+      query: queryDebounce,
+      status: leadStatus,
+      score: leadScore,
+    };
+    const leadPage = {
+      page: hooks.page,
+      pageSize: hooks.pSize,
+    };
+
+    listLeads(leadFilters, leadPage).then((res) => {
+      const leadOptions = res.data.map((lead) => ({ ...lead, key: lead.id }));
       setLeadList(leadOptions);
+      hooks.setPTotal(res.total);
     });
-  }, []);
+  }, [queryDebounce, leadStatus, leadScore, hooks.page, hooks.pSize]);
 
   const onPageChange = (page: number, pageSize: number) => {
-    console.log("Page changed:", page, pageSize);
-    // Implement pagination logic here if needed
+    hooks.setPage(page);
+    hooks.setPSize(pageSize);
   };
 
-  const ActionButtons = (item: ILead) => (
+  const ActionButtons = () => (
     <>
-      <Button variant="outlined">
-        <PiPen size={18} />
-        Edit
+      <Button variant="solid" color="blue">
+        <PiPen size={20} />
+        <Text path="lead_action_edit" />
       </Button>
-      <Button variant="outlined">
-        <PiHandCoins size={18} />
-        Opportunity
+      <Button variant="solid" color="green">
+        <PiCheck size={20} />
+        <Text path="lead_action_make_opportunity" />
+      </Button>
+      <Button variant="solid" color="yellow">
+        <PiX size={20} />
+        <Text path="lead_action_refuse" />
+      </Button>
+      <Button variant="solid" color="red">
+        <PiTrash size={20} />
+        <Text path="lead_action_delete" />
       </Button>
     </>
   );
 
   return (
     <Column>
-      <Row item="center">
-        <TextInput icon={<PiMagnifyingGlass size={22} />} />
+      <Row item="end" resposive="md">
+        <TextInput
+          label="Search"
+          placeholder={getText("lead_search_placeholder")}
+          value={query}
+          onChangeValue={(value) => setQuery(value)}
+        />
         <Row>
           <SelectInput
-            options={[
-              { label: "All", key: "all" },
-              { label: "Open", key: "open" },
-              { label: "Closed", key: "closed" },
-            ]}
+            label="Status"
+            options={LeadStatusOptions}
+            value={leadStatus}
+            onChange={(value) => setLeadStatus(value)}
           />
           <SelectInput
-            options={[
-              { label: "All", key: "all" },
-              { label: "Open", key: "open" },
-              { label: "Closed", key: "closed" },
-            ]}
+            label="Score"
+            options={LeadScoreOptions}
+            value={leadScore}
+            onChange={(value) => setLeadScore(value)}
           />
         </Row>
       </Row>
       <CollapsibleTable
         data={leadList}
         columns={leadTableItems}
-        pageSize={10}
-        page={1}
+        page={hooks.page}
+        pageSize={hooks.pSize}
+        pageTotal={hooks.pTotal}
         itemButtons={ActionButtons}
         onPageChange={onPageChange}
       />

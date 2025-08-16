@@ -14,7 +14,7 @@ export const Label = ({ className, ...props }: ILabel) => {
     <label
       {...props}
       className={twMerge(
-        `w-full flex flex-col relative text-sm text-blue-600 focus:bg-red-500 ${className}`
+        `w-full flex flex-col relative text-sm focus:bg-red-500 ${className}`
       )}
     />
   );
