@@ -14,7 +14,7 @@ export const Label = ({ className, ...props }: ILabel) => {
     <label
       {...props}
       className={twMerge(
-        `w-full flex flex-col text-sm text-blue-600 focus:bg-red-500 ${className}`
+        `w-full flex flex-col relative text-sm text-blue-600 focus:bg-red-500 ${className}`
       )}
     />
   );
@@ -31,7 +31,7 @@ export const Input = forwardRef<any, IInput>((props, ref) => {
       {...props}
       ref={ref}
       className={twMerge(
-        `w-full p-2 px-3 mt-1 border text-md rounded-md transition peer
+        `w-full p-2 px-3 border text-md rounded-md transition peer
          outline-none border-gray-300
          hover:border-blue-500 focus:border-blue-500
          data-[error=true]:border-red-600 data-[type=color]:p-0

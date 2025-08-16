@@ -5,7 +5,7 @@ export const TabContainer = (props: React.HTMLAttributes<HTMLDivElement>) => {
     <div
       {...props}
       className={twMerge(
-        `w-full px-4 border border-gray-200 rounded-lg ${props.className}`
+        `w-full px-4 pb-4 border border-gray-200 rounded-lg ${props.className}`
       )}
     />
   );

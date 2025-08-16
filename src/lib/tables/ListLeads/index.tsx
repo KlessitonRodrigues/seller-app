@@ -1,8 +1,10 @@
 import { Button } from "antd";
 import { useEffect, useState } from "react";
-import { PiHandCoins, PiPen } from "react-icons/pi";
+import { PiHandCoins, PiMagnifyingGlass, PiPen } from "react-icons/pi";
 import { leadTableItems } from "src/constants/tableItems";
-import { Column } from "src/lib/common/Containers/Flex";
+import { Column, Row } from "src/lib/common/Containers/Flex";
+import SelectInput from "src/lib/common/Inputs/SelectInput";
+import TextInput from "src/lib/common/Inputs/TextInput";
 import CollapsibleTable from "src/lib/common/Tables/CollapsibleTable";
 import { ILead, listLeads } from "src/services/leads";
 
@@ -10,9 +12,10 @@ const LeadsTable = () => {
   const [leadList, setLeadList] = useState<ILead[]>();
 
   useEffect(() => {
-    const leads = listLeads();
-    const leadOptions = leads.map((lead) => ({ ...lead, key: lead.id }));
-    setLeadList(leadOptions);
+    listLeads().then((leads) => {
+      const leadOptions = leads.map((lead) => ({ ...lead, key: lead.id }));
+      setLeadList(leadOptions);
+    });
   }, []);
 
   const onPageChange = (page: number, pageSize: number) => {
@@ -35,6 +38,25 @@ const LeadsTable = () => {
 
   return (
     <Column>
+      <Row item="center">
+        <TextInput icon={<PiMagnifyingGlass size={22} />} />
+        <Row>
+          <SelectInput
+            options={[
+              { label: "All", key: "all" },
+              { label: "Open", key: "open" },
+              { label: "Closed", key: "closed" },
+            ]}
+          />
+          <SelectInput
+            options={[
+              { label: "All", key: "all" },
+              { label: "Open", key: "open" },
+              { label: "Closed", key: "closed" },
+            ]}
+          />
+        </Row>
+      </Row>
       <CollapsibleTable
         data={leadList}
         columns={leadTableItems}

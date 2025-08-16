@@ -11,16 +11,16 @@ import Title from "src/lib/common/Text/Title";
 import LeadForm from "src/lib/forms/CreateLead";
 import LeadsTable from "src/lib/tables/ListLeads";
 
-const SallesSection = () => {
+const LeadsSection = () => {
   const [menuItem, setMenuItem] = useState("1");
   return (
     <Card>
       <Title flex tag="h3" opacity="80">
         <PiStorefront size={26} className="text-gray-500" />
-        <Text path="sale_section_title" />
+        <Text path="lead_section_title" />
       </Title>
       <Paragraph opacity="70">
-        <Text path="sale_section_description" />
+        <Text path="lead_section_description" />
       </Paragraph>
 
       <TabContainer>
@@ -40,4 +40,4 @@ const SallesSection = () => {
   );
 };
 
-export default SallesSection;
+export default LeadsSection;

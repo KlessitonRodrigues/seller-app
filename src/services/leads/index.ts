@@ -1,3 +1,4 @@
+import { sleep } from "src/utils/async";
 import { readStorage, saveStorage } from "../localStorage";
 
 export interface ILead {
@@ -12,23 +13,26 @@ export interface ILead {
 
 const STORAGE_KEY = "leads";
 
-export function getLeads(): ILead[] {
-  return readStorage<ILead[]>(STORAGE_KEY) || [];
-}
+const getLeads = (): ILead[] => {
+  return JSON.parse(readStorage(STORAGE_KEY)) || [];
+};
 
-export function saveLeads(leads: ILead[]) {
-  saveStorage(STORAGE_KEY, leads);
-}
+const saveLeads = (leads: ILead[]) => {
+  saveStorage(STORAGE_KEY, JSON.stringify(leads));
+};
 
-export function getLead(id: string): ILead | undefined {
+const getLead = async (id: string): Promise<ILead | undefined> => {
+  await sleep(300);
   return getLeads().find((lead) => lead.id === id);
-}
+};
 
-export function listLeads(): ILead[] {
+const listLeads = async (): Promise<ILead[]> => {
+  await sleep(300);
   return getLeads();
-}
+};
 
-export const createLead = (lead: ILead): ILead => {
+const createLead = async (lead: ILead): Promise<ILead> => {
+  await sleep(300);
   const leads = getLeads();
   lead.id = `${Date.now()}-${Math.random()}`;
   leads.push(lead);
@@ -36,34 +40,51 @@ export const createLead = (lead: ILead): ILead => {
   return lead;
 };
 
-export function updateLead(updated: ILead): void {
+const updateLead = async (updated: ILead): Promise<void> => {
+  await sleep(300);
   const leads = getLeads();
   const idx = leads.findIndex((lead) => lead.id === updated.id);
   if (idx !== -1) {
     leads[idx] = updated;
     saveLeads(leads);
   }
-}
+};
 
-export function deleteLead(id: string): void {
+const deleteLead = async (id: string): Promise<void> => {
+  await sleep(300);
   const leads = getLeads().filter((lead) => lead.id !== id);
   saveLeads(leads);
-}
+};
 
-export function searchLeads(query: string): ILead[] {
+const searchLeads = async (query: string): Promise<ILead[]> => {
+  await sleep(300);
   const q = query.toLowerCase();
   return getLeads().filter(
     (lead) =>
       lead?.name?.toLowerCase().includes(q) ||
       lead?.company?.toLowerCase().includes(q)
   );
-}
+};
 
-export function filterLeadsByStatus(status: string): ILead[] {
+const filterLeadsByStatus = async (status: string): Promise<ILead[]> => {
+  await sleep(300);
   return getLeads().filter((lead) => lead.status === status);
-}
+};
 
-export function sortLeadsByScoreDesc(leads?: ILead[]): ILead[] {
+const sortLeadsByScoreDesc = (leads?: ILead[]): ILead[] => {
   const arr = leads ? [...leads] : getLeads();
   return arr.sort((a, b) => (b.score || 0) - (a.score || 0));
-}
+};
+
+export {
+  getLeads,
+  saveLeads,
+  getLead,
+  listLeads,
+  createLead,
+  updateLead,
+  deleteLead,
+  searchLeads,
+  filterLeadsByStatus,
+  sortLeadsByScoreDesc,
+};

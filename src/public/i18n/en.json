@@ -9,8 +9,8 @@
 
   "home_title": "Home Page",
   "home_description": "Welcome to our homepage. Here you can find the latest updates and news.",
-  "sale_section_title": "Sales",
-  "sale_section_description": "Explore our latest sales and promotions. Don't miss out on great deals!",
+  "lead_section_title": "Leads Section",
+  "lead_section_description": "This section contains leads that you can follow up on. Use the filters to narrow down your search.",
 
   "database_title": "Database",
   "database_description": "Access our extensive database of products and services. Use the search function to find what you need.",
