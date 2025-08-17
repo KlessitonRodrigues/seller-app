@@ -14,7 +14,7 @@ export const toastOptions: DefaultToastOptions = {
   loading: { style: { color: "#1d4ed8" } },
 };
 
-const toastAlert = async (cb: Promise<any>, msg: string, doneMsg: string) => {
+const toastAlert = async <T>(cb: Promise<T>, msg: string, doneMsg: string) => {
   const id = "REQUEST";
   toast.loading(msg, { id });
   try {
@@ -32,7 +32,7 @@ export const saveAlert = async (cb: Promise<any>) => {
   return toastAlert(cb, "Salvando ...", "Salvo com sucesso!");
 };
 
-export const loadAlert = async (cb: Promise<any>) => {
+export const loadAlert = async <T>(cb: Promise<T>) => {
   return toastAlert(cb, "Carregando ...", "");
 };
 

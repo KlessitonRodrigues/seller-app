@@ -3,12 +3,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import TextInput from "src/lib/common/Inputs/TextInput";
 import { Form } from "src/lib/common/Containers/Form";
-import { createLead, ILead, updateLead } from "src/services/leads";
+import { ILead } from "src/services/leads";
 import { Row } from "src/lib/common/Containers/Flex";
 import { Button } from "antd";
 import SelectInput from "src/lib/common/Inputs/SelectInput";
 import { LeadStatusOptions } from "src/constants/optionList";
-import { saveAlert } from "src/services/common/toast";
+import useLeadService from "src/hooks/useLeadService";
 
 type ILeadFormProps = {
   data?: ILead;
@@ -26,7 +26,6 @@ const initial: ILead = {
 
 const resolver: Resolver<typeof initial> = async (data, ctx, opt) => {
   data.score = data.score ? Number(data.score) : undefined;
-
   const schema: Record<keyof typeof initial, any> = {
     name: z.string().min(1, "Name is required"),
     company: z.string().min(1, "Company is required"),
@@ -42,14 +41,14 @@ const resolver: Resolver<typeof initial> = async (data, ctx, opt) => {
 
 const LeadForm = (props: ILeadFormProps) => {
   const { data } = props;
-
+  const leadService = useLeadService();
   const defaultValues = data ? { ...initial, ...data } : initial;
   const formConfig = { defaultValues, resolver };
   const { register, handleSubmit, formState, ...form } = useForm(formConfig);
 
   const onSubmit = async (data: typeof initial) => {
-    if (data.id) return await saveAlert(updateLead(data));
-    return await saveAlert(createLead(data));
+    if (data.id) return await leadService.editLead(data);
+    return await leadService.addLead(data);
   };
 
   return (

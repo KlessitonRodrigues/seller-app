@@ -7,7 +7,7 @@ export const DefaultPage = (props: IPage) => {
     <div
       {...props}
       className={twMerge(
-        `bg-gray-100 text-gray-700 min-w-screen min-h-screen ${props.className}`
+        `bg-gray-100 text-gray-700  min-h-screen ${props.className}`
       )}
     />
   );

@@ -18,7 +18,6 @@ const Page = (props: PropsWithChildren) => {
   return (
     <DefaultPage>
       <Toaster toastOptions={toastOptions} />
-
       <PageHeader>
         <Header />
       </PageHeader>

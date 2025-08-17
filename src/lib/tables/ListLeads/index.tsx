@@ -1,23 +1,20 @@
 import { Button } from "antd";
-import { useCallback, useEffect, useState } from "react";
-import { useToaster } from "react-hot-toast";
+import { useEffect } from "react";
 import { PiCheck, PiPen, PiTrash, PiX } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
-import { LEAD_STATUS } from "src/constants/enums/lead";
 import { LeadScoreOptions, LeadStatusOptions } from "src/constants/optionList";
 import { leadTableItems } from "src/constants/tableItems";
-import useCommon from "src/hooks/useCommon";
+import useLeadService from "src/hooks/useLeadService";
 import { Column, Row } from "src/lib/common/Containers/Flex";
 import SelectInput from "src/lib/common/Inputs/SelectInput";
 import TextInput from "src/lib/common/Inputs/TextInput";
 import CollapsibleTable from "src/lib/common/Tables/CollapsibleTable";
 import Text, { getText } from "src/lib/common/Text/Text";
-import { loadAlert, removeAlert, saveAlert } from "src/services/common/toast";
+import { removeAlert, saveAlert } from "src/services/common/toast";
 import {
   convertToOpportunity,
   deleteLead,
   ILead,
-  listLeads,
   rejectLead,
 } from "src/services/leads";
 
@@ -27,37 +24,8 @@ type ILeadsTableProps = {
 
 const LeadsTable = (props: ILeadsTableProps) => {
   const { onEdit } = props;
-  const { query, queryDebounce, setQuery, ...hooks } = useCommon();
-  const [leadList, setLeadList] = useState<ILead[]>();
-  const [leadStatus, setLeadStatus] = useState<string>(LEAD_STATUS.PENDING);
-  const [leadScore, setLeadScore] = useState("");
-  const loading = !!useToaster().toasts.length;
+  const leadService = useLeadService();
   const navigate = useNavigate();
-
-  const loadLeads = useCallback(async () => {
-    const leadFilters = {
-      query: queryDebounce,
-      status: leadStatus,
-      score: leadScore,
-    };
-    const leadPage = {
-      page: hooks.page,
-      pageSize: hooks.pSize,
-    };
-
-    loadAlert(
-      listLeads(leadFilters, leadPage).then((res) => {
-        const leadOptions = res.data.map((lead) => ({ ...lead, key: lead.id }));
-        setLeadList(leadOptions);
-        hooks.setPTotal(res.total);
-      })
-    );
-  }, [queryDebounce, leadStatus, leadScore, hooks.page, hooks.pSize]);
-
-  const onPageChange = (page: number, pageSize: number) => {
-    hooks.setPage(page);
-    hooks.setPSize(pageSize);
-  };
 
   const onConvertLead = async (lead: ILead) => {
     await saveAlert(convertToOpportunity(lead));
@@ -66,17 +34,17 @@ const LeadsTable = (props: ILeadsTableProps) => {
 
   const onRejectLead = async (lead: ILead) => {
     await saveAlert(rejectLead(lead));
-    loadLeads();
+    leadService.getLeads();
   };
 
   const onDeleteLead = async (lead: ILead) => {
     await removeAlert(deleteLead(lead));
-    loadLeads();
+    leadService.getLeads();
   };
 
   useEffect(() => {
-    loadLeads();
-  }, [loadLeads]);
+    leadService.getLeads();
+  }, [leadService.getLeads]);
 
   const ActionButtons = (lead: ILead) => (
     <>
@@ -105,33 +73,33 @@ const LeadsTable = (props: ILeadsTableProps) => {
         <TextInput
           label="Search"
           placeholder={getText("lead_search_placeholder")}
-          value={query}
-          onChangeValue={(value) => setQuery(value)}
+          value={leadService.query}
+          onChangeValue={(value) => leadService.setQuery(value)}
         />
         <Row>
           <SelectInput
             label="Status"
             options={LeadStatusOptions}
-            value={leadStatus}
-            onChange={(value) => setLeadStatus(value)}
+            value={leadService.leadStatus}
+            onChange={(value) => leadService.setLeadStatus(value)}
           />
           <SelectInput
             label="Score"
             options={LeadScoreOptions}
-            value={leadScore}
-            onChange={(value) => setLeadScore(value)}
+            value={leadService.leadScore}
+            onChange={(value) => leadService.setLeadScore(value)}
           />
         </Row>
       </Row>
       <CollapsibleTable
-        data={leadList}
-        loading={loading}
+        data={leadService.leadList}
+        loading={leadService.loading}
         columns={leadTableItems}
-        page={hooks.page}
-        pageSize={hooks.pSize}
-        pageTotal={hooks.pTotal}
+        page={leadService.page}
+        pageSize={leadService.pSize}
+        pageTotal={leadService.pTotal}
         itemButtons={ActionButtons}
-        onPageChange={onPageChange}
+        onPageChange={leadService.changePage}
       />
     </Column>
   );
