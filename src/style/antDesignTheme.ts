@@ -4,7 +4,7 @@ import { materialColors } from "./colors";
 export const themeConfig: ThemeConfig = {
   token: {
     colorPrimary: "#1677ff",
-    borderRadius: 4,
+    borderRadius: 8,
     green: materialColors.green[700],
     red: materialColors.red[700],
     blue: materialColors.blue[700],

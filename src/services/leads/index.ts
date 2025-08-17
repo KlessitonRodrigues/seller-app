@@ -1,5 +1,7 @@
 import { sleep } from "src/utils/async";
 import { readStorage, saveStorage } from "../localStorage";
+import { createOpportunity } from "../opotunity";
+import { OPPORTUNITY_STAGE } from "src/constants/enums/lead";
 
 export type ILead = {
   id?: string;
@@ -101,14 +103,17 @@ const deleteLead = async (id: string): Promise<void> => {
   saveLeads(leads);
 };
 
-const searchLeads = async (query: string): Promise<ILead[]> => {
+const convertToOpportunity = async (lead: ILead) => {
   await sleep(300);
-  const q = query.toLowerCase();
-  return getLeads().filter(
-    (lead) =>
-      lead?.name?.toLowerCase().includes(q) ||
-      lead?.company?.toLowerCase().includes(q)
-  );
+  const leads = getLeads().filter((l) => l.id !== lead.id);
+  saveLeads(leads);
+  await createOpportunity({
+    id: `${Date.now()}-${Math.random()}`,
+    name: lead.name,
+    accountName: lead.company,
+    amount: 0,
+    stage: OPPORTUNITY_STAGE.PENDING,
+  });
 };
 
 export {
@@ -119,5 +124,5 @@ export {
   createLead,
   updateLead,
   deleteLead,
-  searchLeads,
+  convertToOpportunity,
 };

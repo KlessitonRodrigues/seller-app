@@ -45,6 +45,6 @@ export const Column = (props: IFlex) => {
     items-center items-start items-end items-between
     justify-center justify-start justify-end justify-between
     sm:flex-row md:flex-row lg:flex-row xl:flex-row
-    gap-2 gap-4 gap-6
+    gap-1 gap-2 gap-3 gap-4 gap-5 gap-6 gap-7 gap-8 gap-9 gap-10
     w-full h-full
 */

@@ -1,60 +1,63 @@
 # Copilot Instructions for seller-app
 
-## Project Overview
+## Project Architecture
 
-- **Type:** React SPA (Single Page Application) using Vite, TypeScript, and Tailwind CSS.
-- **Entry Point:** `src/app.tsx` mounts the app to `#root` in `index.html`.
-- **Routing:** Uses `react-router-dom@7` with routes defined in `src/pages/router.tsx`. All routes currently lazy-load `src/pages/home`.
-- **Providers:** `src/lib/components/AppProviders` wraps the app for context providers (currently a passthrough, but extend here for global state, theming, etc).
+- **Type:** React SPA using Vite, TypeScript, and Tailwind CSS.
+- **Entry:** `src/app.tsx` (mounts to `#root` in `index.html`).
+- **Routing:** `react-router-dom@7` with routes in `src/pages/router.tsx` (all routes currently lazy-load `src/pages/home`).
+- **Providers:** `src/lib/components/AppProviders` (wraps app for context, extend here for global state/theming).
 
-## UI Architecture
+## UI & Layout Patterns
 
-- **Layout Components:**
-  - `src/lib/common/Containers/Pages.tsx` provides `DefaultPage` and `PageContent` for page structure.
-  - `src/lib/common/Containers/Flex.tsx` provides `Row` and `Column` with Tailwind-based flex utilities.
-- **Text Components:**
-  - `src/lib/common/Text/Text.tsx` renders i18n text from `src/public/i18n/{en,pt}.json` based on browser language.
-  - `Title` and `Paragraph` in the same folder are used for semantic and styled text.
-- **Page Example:** See `src/pages/home/index.tsx` for typical usage of layout and text components.
+- **Layout:** Use `DefaultPage`/`PageContent` (`src/lib/common/Containers/Pages.tsx`) and `Row`/`Column` (`src/lib/common/Containers/Flex.tsx`) for page structure and flex layouts.
+- **Text/i18n:** Use `Text` (`src/lib/common/Text/Text.tsx`) for i18n, with keys from `src/public/i18n/{en,pt}.json`. Use `Title`/`Paragraph` for styled/semantic text.
+- **Inputs:** Prefer components in `src/lib/common/Inputs/` (e.g., `TextInput`, `SelectInput`, `MultiFileInput`).
+- **Tables:** Use `CollapsibleTable` (`src/lib/common/Tables/CollapsibleTable.tsx`) for advanced table UIs.
+- **Page Example:** See `src/pages/home/index.tsx` for canonical usage of layout, text, and section composition.
 
-## Styling
+## Styling & Theming
 
-- **Global Styles:** `src/style/global.css` (imports Tailwind, sets font-family, and root CSS vars).
-- **Color Palette:** `src/style/colors.ts` exports a large Material color palette object.
-- **Fonts:** Custom fonts loaded in `index.html` from `src/public/fonts/`.
+- **Global styles:** `src/style/global.css` (imports Tailwind, sets font, root CSS vars).
+- **Colors:** Use palette from `src/style/colors.ts`.
+- **Fonts:** Loaded in `index.html` from `src/public/fonts/`.
 
 ## Services & Utilities
 
-- **Local Storage:** `src/services/localStorage.ts` provides `saveStorage` and `readStorage` with error handling.
-- **Service Structure:** Service folders (e.g., `salles`, `opotunity`) are present but may be stubs or empty.
+- **Local Storage:** Use `saveStorage`/`readStorage` from `src/services/localStorage.ts` (with error handling).
+- **Service pattern:** Place new services in `src/services/`, export functions (see `localStorage.ts` for style). Service folders may be stubs.
+- **Utilities:** Place helpers in `src/utils/`.
 
-## Build & Dev
+## Developer Workflow
 
-- **Dev Server:** `npm run dev` (Vite, with `--host` for LAN access)
+- **Dev server:** `npm run dev` (Vite, use `--host` for LAN access)
 - **Build:** `npm run build`
 - **Preview:** `npm run preview` (serves built app)
-- **Format:** `npm run format` (Prettier with import sorting)
-- **Type Checking:** TypeScript strict mode is enabled; see `tsconfig.json` for details.
+- **Format:** `npm run format` (Prettier, import sorting)
+- **Type checking:** TypeScript strict mode (`tsconfig.json`)
 
-## Patterns & Conventions
+## Project Conventions
 
-- **Path Aliases:** Use `src/*` for imports (see `tsconfig.json` and Vite config).
-- **Component Structure:** Prefer functional components, hooks, and composition over inheritance.
-- **i18n:** Use the `Text` component with a `path` prop matching keys in the i18n JSON files.
-- **Styling:** Use Tailwind classes, optionally merged with `twMerge` for dynamic class composition.
-- **Extensibility:** Add new providers to `AppProviders`, new pages to `src/pages/`, and new services under `src/services/`.
+- **Path aliases:** Use `src/*` for imports (see `tsconfig.json`, Vite config).
+- **Component style:** Functional components, hooks, and composition (no inheritance, no Redux/MobX).
+- **i18n:** Always use the `Text` component for user-facing strings.
+- **Styling:** Use Tailwind classes, merge dynamically with `twMerge` if needed.
+- **Extensibility:** Add providers to `AppProviders`, pages to `src/pages/`, services to `src/services/`.
 
 ## External Dependencies
 
-- **React 19, React Router 7, Tailwind CSS 4, Vite 6, Prettier, tailwind-merge**
-- **No Redux/MobX:** State management is expected to be context/hooks-based.
+- React 19, React Router 7, Tailwind CSS 4, Vite 6, Prettier, tailwind-merge
 
 ---
 
-**For AI agents:**
+**AI Agent Guidance:**
 
-- When adding new features, follow the patterns in `src/pages/home` and `src/lib/common`.
-- For new services, create a folder in `src/services/` and export functions as in `localStorage.ts`.
-- For new UI, compose from existing layout and text components before introducing new primitives.
-- Keep imports sorted and code formatted using the provided scripts.
-- If unsure about a pattern, check the referenced files for examples.
+- Follow patterns in `src/pages/home` and `src/lib/common` for new features.
+- Compose new UI from existing layout/text components before adding new primitives.
+- For new services, follow the export style in `src/services/localStorage.ts`.
+- Keep imports sorted and code formatted (`npm run format`).
+- If unsure, check referenced files for examples.
+
+---
+
+**Feedback requested:**
+If any section is unclear or missing key project-specific details, please specify so it can be improved.

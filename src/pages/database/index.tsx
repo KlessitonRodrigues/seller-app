@@ -2,6 +2,7 @@ import Paragraph from "src/lib/common/Text/Paragraph";
 import Text from "src/lib/common/Text/Text";
 import Title from "src/lib/common/Text/Title";
 import Page from "src/lib/components/Page";
+import DataBaseForm from "src/lib/forms/DataBaseForm";
 
 const DataBasePage = () => {
   return (
@@ -12,6 +13,7 @@ const DataBasePage = () => {
       <Paragraph>
         <Text path="database_description" />
       </Paragraph>
+      <DataBaseForm />
     </Page>
   );
 };

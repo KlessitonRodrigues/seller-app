@@ -1,5 +1,5 @@
-import { LucideCloudUpload, LucideFileText, LucideX } from "lucide-react";
 import { useEffect, useState } from "react";
+import { PiCloudArrowUp, PiFile, PiX } from "react-icons/pi";
 
 type IMultiFileInput = {
   maxFiles?: number;
@@ -32,13 +32,13 @@ const MultiFileInput = (props: IMultiFileInput) => {
             className="flex items-center justify-between border p-1 rounded-md"
           >
             <div className="flex items-center gap-2">
-              <LucideFileText className="text-blue-500" />
+              <PiFile className="text-blue-500" />
               {file.name}
               <span className="text-sm text-gray-500">
                 {Math.round(file.size / 1024)} KB
               </span>
             </div>
-            <LucideX
+            <PiX
               size={20}
               className="text-red-600 cursor-pointer"
               onClick={() => onFileRemove(i)}
@@ -48,7 +48,7 @@ const MultiFileInput = (props: IMultiFileInput) => {
       </div>
       {files.length < (maxFiles || Infinity) && (
         <label className="flex justify-center gap-2 border p-2 mt-2 rounded-md hover:border-blue-500 cursor-pointer">
-          <LucideCloudUpload size={24} className="text-blue-500" />
+          <PiCloudArrowUp size={24} className="text-blue-500" />
           <p>Adicionar Arquivos</p>
           <input
             type="file"

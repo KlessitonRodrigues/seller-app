@@ -43,10 +43,11 @@ const CollapsibleTable = (props: ICollapsibleTableProps) => {
       }}
       expandable={{
         expandedRowRender: (record) => {
+          const hiddenCols = columns?.filter((col) => col.hidden);
           return (
             <div>
               <div className="divide-y">
-                {columns?.map((col: any) => (
+                {hiddenCols?.map((col: any) => (
                   <div
                     key={col.key}
                     className="flex gap-1 border-gray-300 py-2"
@@ -56,7 +57,7 @@ const CollapsibleTable = (props: ICollapsibleTableProps) => {
                   </div>
                 ))}
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col lg:flex-row gap-2 py-2">
                 {itemButtons ? itemButtons(record) : null}
               </div>
             </div>

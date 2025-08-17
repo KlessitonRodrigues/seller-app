@@ -3,11 +3,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import TextInput from "src/lib/common/Inputs/TextInput";
 import { Form } from "src/lib/common/Containers/Form";
-import { createLead, ILead } from "src/services/leads";
+import { createLead, ILead, updateLead } from "src/services/leads";
 import { Row } from "src/lib/common/Containers/Flex";
 import { Button } from "antd";
 import SelectInput from "src/lib/common/Inputs/SelectInput";
 import { LeadStatusOptions } from "src/constants/optionList";
+
+type ILeadFormProps = {
+  data?: ILead;
+};
 
 const initial: ILead = {
   name: "",
@@ -35,13 +39,15 @@ const resolver: Resolver<typeof initial> = async (data, ctx, opt) => {
   return zodResolver(z.object(schema))(data, ctx, opt);
 };
 
-const LeadForm = () => {
-  const formConfig = { initial, resolver };
+const LeadForm = (props: ILeadFormProps) => {
+  const { data } = props;
+  const defaultValues = data ? { ...initial, ...data } : initial;
+  const formConfig = { defaultValues, resolver };
   const { register, handleSubmit, formState, ...form } = useForm(formConfig);
 
   const onSubmit = async (data: typeof initial) => {
-    console.log(data);
-    createLead(data);
+    if (data.id) return updateLead(data);
+    return createLead(data);
   };
 
   return (

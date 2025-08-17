@@ -9,13 +9,27 @@ import SelectInput from "src/lib/common/Inputs/SelectInput";
 import TextInput from "src/lib/common/Inputs/TextInput";
 import CollapsibleTable from "src/lib/common/Tables/CollapsibleTable";
 import Text, { getText } from "src/lib/common/Text/Text";
-import { ILead, listLeads } from "src/services/leads";
+import { convertToOpportunity, ILead, listLeads } from "src/services/leads";
 
-const LeadsTable = () => {
+type ILeadsTableProps = {
+  onEdit?: (lead: ILead) => void;
+};
+
+const LeadsTable = (props: ILeadsTableProps) => {
+  const { onEdit } = props;
   const { query, queryDebounce, setQuery, ...hooks } = useCommon();
   const [leadList, setLeadList] = useState<ILead[]>();
   const [leadStatus, setLeadStatus] = useState("");
   const [leadScore, setLeadScore] = useState("");
+
+  const onPageChange = (page: number, pageSize: number) => {
+    hooks.setPage(page);
+    hooks.setPSize(pageSize);
+  };
+
+  const onConvertLead = async (lead: ILead) => {
+    await convertToOpportunity(lead);
+  };
 
   useEffect(() => {
     const leadFilters = {
@@ -35,18 +49,13 @@ const LeadsTable = () => {
     });
   }, [queryDebounce, leadStatus, leadScore, hooks.page, hooks.pSize]);
 
-  const onPageChange = (page: number, pageSize: number) => {
-    hooks.setPage(page);
-    hooks.setPSize(pageSize);
-  };
-
-  const ActionButtons = () => (
+  const ActionButtons = (lead: ILead) => (
     <>
-      <Button variant="solid" color="blue">
+      <Button variant="solid" color="blue" onClick={() => onEdit?.(lead)}>
         <PiPen size={20} />
         <Text path="lead_action_edit" />
       </Button>
-      <Button variant="solid" color="green">
+      <Button variant="solid" color="green" onClick={() => onConvertLead(lead)}>
         <PiCheck size={20} />
         <Text path="lead_action_make_opportunity" />
       </Button>

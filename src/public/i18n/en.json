@@ -1,6 +1,8 @@
 {
   "header_title": "Seller App",
   "header_menu_home": "Home",
+  "header_menu_leads": "Leads",
+  "header_menu_opportunities": "Opportunities",
   "header_menu_database": "Database",
   "header_menu_about": "About",
 
@@ -9,8 +11,18 @@
 
   "home_title": "Home Page",
   "home_description": "Welcome to our homepage. Here you can find the latest updates and news.",
-  "lead_section_title": "Leads Section",
+  "lead_section_title": "Leads",
   "lead_section_description": "This section contains leads that you can follow up on. Use the filters to narrow down your search.",
+
+  "opportunity_section_title": "Opportunities",
+  "opportunity_section_description": "This section contains opportunities. Use the filters to narrow down your search.",
+  "opportunity_tab_list": "All Opportunities",
+  "opportunity_tab_add_item": "Add Opportunity",
+  "opportunity_search_placeholder": "Search opportunities by name or account",
+  "opportunity_action_edit": "Edit",
+  "opportunity_action_win": "Win",
+  "opportunity_action_lost": "Lost",
+  "opportunity_action_delete": "Delete",
 
   "database_title": "Database",
   "database_description": "Access our extensive database of products and services. Use the search function to find what you need.",
@@ -26,7 +38,6 @@
   "lead_table_edit_button": "Edit",
   "lead_table_delete_button": "Delete",
   "lead_form_title": "Create New Lead",
-  "lead_status_new": "New",
   "lead_status_rejected": "Rejected",
   "lead_status_pending": "Pending",
   "lead_status_approved": "Approved",
@@ -34,6 +45,6 @@
   "lead_score_high": "High",
   "lead_action_edit": "Editar",
   "lead_action_delete": "Excluir",
-  "lead_action_make_opportunity": "New Opportunity",
+  "lead_action_make_opportunity": "Convert to Opportunity",
   "lead_action_refuse": "Refuse"
 }

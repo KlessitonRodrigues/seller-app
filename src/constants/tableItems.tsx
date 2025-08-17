@@ -12,6 +12,7 @@ export const leadTableItems: ColumnsType<ILead> = [
     dataIndex: "email",
     key: "email",
     responsive: ["md"],
+    hidden: true,
   },
   {
     title: "Company",
