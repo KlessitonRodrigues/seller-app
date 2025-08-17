@@ -6,7 +6,7 @@ import { Button } from "antd";
 import { ILead, saveLeads } from "src/services/leads";
 import FileInput from "src/lib/common/Inputs/FileInput";
 import Paragraph from "src/lib/common/Text/Paragraph";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 import { URLS } from "src/constants/urls";
 import Text from "src/lib/common/Text/Text";
 import { saveAlert } from "src/services/common/toast";
@@ -38,6 +38,7 @@ const resolver: Resolver<typeof initial> = async (data, ctx, opt) => {
 };
 
 const DataBaseForm = () => {
+  const navigate = useNavigate();
   const formConfig = { initial, resolver };
   const { register, handleSubmit, formState, ...form } = useForm(formConfig);
 
@@ -47,6 +48,7 @@ const DataBaseForm = () => {
       return saveLeads(data.leads);
     };
     await saveAlert(saveDb());
+    navigate("/");
   };
 
   return (

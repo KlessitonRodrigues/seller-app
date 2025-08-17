@@ -7,12 +7,12 @@
   "header_menu_about": "Sobre",
 
   "404_title": "Página Não Encontrada",
-  "404_description": "A página que você procura não existe. Verifique a URL ou retorne à página inicial.",
+  "404_description": "A página que você procura não existe. Por favor, verifique a URL ou retorne à página inicial.",
 
   "home_title": "Página Inicial",
   "home_description": "Bem-vindo à nossa página inicial. Aqui você encontra as últimas atualizações e notícias.",
   "lead_section_title": "Leads",
-  "lead_section_description": "Esta seção contém leads para você acompanhar. Use os filtros para refinar sua busca.",
+  "lead_section_description": "Esta seção contém leads que você pode acompanhar. Use os filtros para refinar sua busca.",
 
   "opportunity_section_title": "Oportunidades",
   "opportunity_section_description": "Esta seção contém oportunidades. Use os filtros para refinar sua busca.",
@@ -36,7 +36,11 @@
   "lead_menu_add_item": "Adicionar Lead",
   "lead_table_actions": "Ações",
   "lead_search_placeholder": "Buscar leads por nome ou empresa",
-  "lead_table_no_data": "Nenhum lead encontrado. Adicione um lead para começar.",
+  "lead_table_no_data": "Nenhum lead encontrado. Por favor, adicione um lead para começar.",
+  "opportunity_stage_pending": "Pendente",
+  "opportunity_stage_approved": "Aprovada",
+  "opportunity_stage_rejected": "Rejeitada",
+  "button_save_data": "Salvar",
   "lead_table_edit_button": "Editar",
   "lead_table_delete_button": "Excluir",
   "lead_form_title": "Criar Novo Lead",

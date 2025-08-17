@@ -5,6 +5,8 @@ import {
   PageHeader,
 } from "src/lib/common/Containers/Pages";
 import Header from "../Header";
+import { Toaster } from "react-hot-toast";
+import { toastOptions } from "src/services/common/toast";
 
 const Page = (props: PropsWithChildren) => {
   const { children } = props;
@@ -15,6 +17,8 @@ const Page = (props: PropsWithChildren) => {
 
   return (
     <DefaultPage>
+      <Toaster toastOptions={toastOptions} />
+
       <PageHeader>
         <Header />
       </PageHeader>

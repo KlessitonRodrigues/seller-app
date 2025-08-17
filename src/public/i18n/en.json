@@ -51,5 +51,6 @@
   "lead_action_edit": "Editar",
   "lead_action_delete": "Excluir",
   "lead_action_make_opportunity": "Convert to Opportunity",
-  "lead_action_refuse": "Refuse"
+  "lead_action_refuse": "Refuse",
+  "button_save_data": "Save"
 }

@@ -12,6 +12,8 @@ import {
 } from "src/services/opotunity";
 import SelectInput from "src/lib/common/Inputs/SelectInput";
 import { saveAlert } from "src/services/common/toast";
+import { OpportunityStageOptions } from "src/constants/optionList";
+import Text from "src/lib/common/Text/Text";
 
 type IOpportunityForm = {
   data?: IOpportunity;
@@ -73,14 +75,7 @@ const OpportunityForm = (props: IOpportunityForm) => {
           label="Stage"
           value={form.watch("stage")}
           onChange={(val) => form.setValue("stage", val)}
-          options={[
-            { label: "Prospecting", key: "Prospecting" },
-            { label: "Qualification", key: "Qualification" },
-            { label: "Proposal", key: "Proposal" },
-            { label: "Negotiation", key: "Negotiation" },
-            { label: "Closed Won", key: "Closed Won" },
-            { label: "Closed Lost", key: "Closed Lost" },
-          ]}
+          options={OpportunityStageOptions}
         />
         <TextInput
           label="Amount"
@@ -91,7 +86,7 @@ const OpportunityForm = (props: IOpportunityForm) => {
         />
       </Row>
       <Button htmlType="submit" type="primary">
-        Create Opportunity
+        <Text path="button_save_data" />
       </Button>
     </Form>
   );
