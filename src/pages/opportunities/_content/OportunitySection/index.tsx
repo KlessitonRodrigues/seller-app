@@ -43,7 +43,7 @@ const OpportunitySection = () => {
           title="Edit Opportunity"
           onCancel={() => setEditOpp(undefined)}
         >
-          <OpportunityForm />
+          <OpportunityForm data={editOpp} />
         </CenteredModal>
       </If>
     </Card>

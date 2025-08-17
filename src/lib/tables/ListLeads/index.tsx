@@ -1,6 +1,9 @@
 import { Button } from "antd";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useToaster } from "react-hot-toast";
 import { PiCheck, PiPen, PiTrash, PiX } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
+import { LEAD_STATUS } from "src/constants/enums/lead";
 import { LeadScoreOptions, LeadStatusOptions } from "src/constants/optionList";
 import { leadTableItems } from "src/constants/tableItems";
 import useCommon from "src/hooks/useCommon";
@@ -9,6 +12,7 @@ import SelectInput from "src/lib/common/Inputs/SelectInput";
 import TextInput from "src/lib/common/Inputs/TextInput";
 import CollapsibleTable from "src/lib/common/Tables/CollapsibleTable";
 import Text, { getText } from "src/lib/common/Text/Text";
+import { loadAlert, removeAlert, saveAlert } from "src/services/common/toast";
 import {
   convertToOpportunity,
   deleteLead,
@@ -25,27 +29,12 @@ const LeadsTable = (props: ILeadsTableProps) => {
   const { onEdit } = props;
   const { query, queryDebounce, setQuery, ...hooks } = useCommon();
   const [leadList, setLeadList] = useState<ILead[]>();
-  const [leadStatus, setLeadStatus] = useState("");
+  const [leadStatus, setLeadStatus] = useState<string>(LEAD_STATUS.PENDING);
   const [leadScore, setLeadScore] = useState("");
+  const loading = !!useToaster().toasts.length;
+  const navigate = useNavigate();
 
-  const onPageChange = (page: number, pageSize: number) => {
-    hooks.setPage(page);
-    hooks.setPSize(pageSize);
-  };
-
-  const onConvertLead = async (lead: ILead) => {
-    await convertToOpportunity(lead);
-  };
-
-  const onRejectLead = async (lead: ILead) => {
-    await rejectLead(lead);
-  };
-
-  const onDeleteLead = async (lead: ILead) => {
-    await deleteLead(lead);
-  };
-
-  useEffect(() => {
+  const loadLeads = useCallback(async () => {
     const leadFilters = {
       query: queryDebounce,
       status: leadStatus,
@@ -56,12 +45,38 @@ const LeadsTable = (props: ILeadsTableProps) => {
       pageSize: hooks.pSize,
     };
 
-    listLeads(leadFilters, leadPage).then((res) => {
-      const leadOptions = res.data.map((lead) => ({ ...lead, key: lead.id }));
-      setLeadList(leadOptions);
-      hooks.setPTotal(res.total);
-    });
+    loadAlert(
+      listLeads(leadFilters, leadPage).then((res) => {
+        const leadOptions = res.data.map((lead) => ({ ...lead, key: lead.id }));
+        setLeadList(leadOptions);
+        hooks.setPTotal(res.total);
+      })
+    );
   }, [queryDebounce, leadStatus, leadScore, hooks.page, hooks.pSize]);
+
+  const onPageChange = (page: number, pageSize: number) => {
+    hooks.setPage(page);
+    hooks.setPSize(pageSize);
+  };
+
+  const onConvertLead = async (lead: ILead) => {
+    await saveAlert(convertToOpportunity(lead));
+    navigate(`/opportunities`);
+  };
+
+  const onRejectLead = async (lead: ILead) => {
+    await saveAlert(rejectLead(lead));
+    loadLeads();
+  };
+
+  const onDeleteLead = async (lead: ILead) => {
+    await removeAlert(deleteLead(lead));
+    loadLeads();
+  };
+
+  useEffect(() => {
+    loadLeads();
+  }, [loadLeads]);
 
   const ActionButtons = (lead: ILead) => (
     <>
@@ -110,6 +125,7 @@ const LeadsTable = (props: ILeadsTableProps) => {
       </Row>
       <CollapsibleTable
         data={leadList}
+        loading={loading}
         columns={leadTableItems}
         page={hooks.page}
         pageSize={hooks.pSize}

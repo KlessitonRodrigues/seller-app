@@ -5,8 +5,17 @@ import TextInput from "src/lib/common/Inputs/TextInput";
 import { Form } from "src/lib/common/Containers/Form";
 import { Row } from "src/lib/common/Containers/Flex";
 import { Button } from "antd";
-import { createOpportunity, IOpportunity } from "src/services/opotunity";
+import {
+  createOpportunity,
+  IOpportunity,
+  updateOpportunity,
+} from "src/services/opotunity";
 import SelectInput from "src/lib/common/Inputs/SelectInput";
+import { saveAlert } from "src/services/common/toast";
+
+type IOpportunityForm = {
+  data?: IOpportunity;
+};
 
 const initial: IOpportunity = {
   name: "",
@@ -30,12 +39,15 @@ const resolver: Resolver<typeof initial> = async (data, ctx, opt) => {
   return zodResolver(z.object(schema))(data, ctx, opt);
 };
 
-const OpportunityForm = () => {
-  const formConfig = { initial, resolver };
+const OpportunityForm = (props: IOpportunityForm) => {
+  const { data } = props;
+  const defaultValues = data ? { ...initial, ...data } : initial;
+  const formConfig = { defaultValues, resolver };
   const { register, handleSubmit, formState, ...form } = useForm(formConfig);
 
   const onSubmit = async (data: typeof initial) => {
-    createOpportunity(data);
+    if (data.id) await saveAlert(updateOpportunity(data));
+    else await saveAlert(createOpportunity(data));
   };
 
   return (

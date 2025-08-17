@@ -1,5 +1,5 @@
 import { sleep } from "src/utils/async";
-import { readStorage, saveStorage } from "../localStorage";
+import { readStorage, saveStorage } from "../common/localStorage";
 import { createOpportunity } from "../opotunity";
 import { LEAD_STATUS, OPPORTUNITY_STAGE } from "src/constants/enums/lead";
 
@@ -35,12 +35,12 @@ const saveLeads = (leads: ILead[]) => {
 };
 
 const getLead = async (id: string): Promise<ILead | undefined> => {
-  await sleep(300);
+  await sleep(1000);
   return getLeads().find((lead) => lead.id === id);
 };
 
 const listLeads = async (filters: ILeadFilters, page: ILeadPage) => {
-  await sleep(300);
+  await sleep(1000);
   let leads = getLeads();
 
   if (filters.query) {
@@ -79,7 +79,7 @@ const listLeads = async (filters: ILeadFilters, page: ILeadPage) => {
 };
 
 const createLead = async (lead: ILead): Promise<ILead> => {
-  await sleep(300);
+  await sleep(1000);
   const leads = getLeads();
   lead.id = `${Date.now()}-${Math.random()}`;
   leads.push(lead);
@@ -88,7 +88,7 @@ const createLead = async (lead: ILead): Promise<ILead> => {
 };
 
 const updateLead = async (updated: ILead): Promise<void> => {
-  await sleep(300);
+  await sleep(1000);
   const leads = getLeads();
   const idx = leads.findIndex((lead) => lead.id === updated.id);
   if (idx !== -1) {
@@ -98,15 +98,19 @@ const updateLead = async (updated: ILead): Promise<void> => {
 };
 
 const deleteLead = async (lead: ILead) => {
-  await sleep(300);
+  await sleep(1000);
   const leads = getLeads().filter((dbLead) => dbLead.id !== lead.id);
   saveLeads(leads);
 };
 
 const convertToOpportunity = async (lead: ILead) => {
-  await sleep(300);
-  const leads = getLeads().filter((l) => l.id !== lead.id);
-  saveLeads(leads);
+  await sleep(1000);
+  const leads = getLeads();
+  const idx = leads.findIndex((l) => l.id === lead.id);
+  if (idx !== -1) {
+    leads[idx] = { ...leads[idx], status: LEAD_STATUS.APPROVED };
+    saveLeads(leads);
+  }
   await createOpportunity({
     id: Date.now().toString(),
     name: lead.name,
@@ -117,7 +121,7 @@ const convertToOpportunity = async (lead: ILead) => {
 };
 
 const rejectLead = async (lead: ILead): Promise<void> => {
-  await sleep(300);
+  await sleep(1000);
   const leads = getLeads();
   const idx = leads.findIndex((l) => l.id === lead.id);
   if (idx !== -1) {

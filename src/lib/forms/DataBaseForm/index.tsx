@@ -9,6 +9,8 @@ import Paragraph from "src/lib/common/Text/Paragraph";
 import { Link } from "react-router-dom";
 import { URLS } from "src/constants/urls";
 import Text from "src/lib/common/Text/Text";
+import { saveAlert } from "src/services/common/toast";
+import { sleep } from "src/utils/async";
 
 type DataBase = {
   leads: ILead[];
@@ -40,7 +42,11 @@ const DataBaseForm = () => {
   const { register, handleSubmit, formState, ...form } = useForm(formConfig);
 
   const onSubmit = async (data: typeof initial) => {
-    await saveLeads(data.leads);
+    const saveDb = async () => {
+      await sleep(1000);
+      return saveLeads(data.leads);
+    };
+    await saveAlert(saveDb());
   };
 
   return (

@@ -33,6 +33,7 @@
     "@hookform/resolvers": "^5.2.1",
     "antd": "^5.27.0",
     "react-hook-form": "^7.62.0",
+    "react-hot-toast": "^2.6.0",
     "zod": "^4.0.17"
   }
 }

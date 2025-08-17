@@ -23,6 +23,9 @@
   "opportunity_action_win": "Win",
   "opportunity_action_lost": "Lost",
   "opportunity_action_delete": "Delete",
+  "opportunity_stage_pending": "Pending",
+  "opportunity_stage_approved": "Approved",
+  "opportunity_stage_rejected": "Rejected",
 
   "database_title": "Database",
   "database_description": "Upload a list of leads to your database. The file should be in JSON format.",

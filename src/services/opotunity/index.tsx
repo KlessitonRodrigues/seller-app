@@ -1,4 +1,4 @@
-import { readStorage, saveStorage } from "../localStorage";
+import { readStorage, saveStorage } from "../common/localStorage";
 import { sleep } from "src/utils/async";
 
 export type IOpportunity = {
@@ -32,7 +32,7 @@ const saveOpportunities = (opportunities: IOpportunity[]) => {
 };
 
 const getOpportunity = async (id: string) => {
-  await sleep(300);
+  await sleep(1000);
   return getOpportunities().find((opp) => opp.id === id);
 };
 
@@ -40,7 +40,7 @@ const listOpportunities = async (
   filters: IOpportunityFilters,
   page: IOpportunityPage
 ) => {
-  await sleep(300);
+  await sleep(1000);
   let opportunities = getOpportunities();
 
   if (filters.query) {
@@ -84,7 +84,7 @@ const listOpportunities = async (
 };
 
 const createOpportunity = async (opportunity: IOpportunity) => {
-  await sleep(300);
+  await sleep(1000);
   const opportunities = getOpportunities();
   opportunity.id = Date.now().toString();
   opportunities.push(opportunity);
@@ -93,7 +93,7 @@ const createOpportunity = async (opportunity: IOpportunity) => {
 };
 
 const updateOpportunity = async (updated: IOpportunity) => {
-  await sleep(300);
+  await sleep(1000);
   const opportunities = getOpportunities();
   const idx = opportunities.findIndex((opp) => opp.id === updated.id);
   if (idx !== -1) {
@@ -103,7 +103,7 @@ const updateOpportunity = async (updated: IOpportunity) => {
 };
 
 const deleteOpportunity = async (opp: IOpportunity) => {
-  await sleep(300);
+  await sleep(1000);
   const opportunities = getOpportunities().filter(
     (dbOpp) => dbOpp.id !== opp.id
   );

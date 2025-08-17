@@ -1,4 +1,4 @@
-import { readStorage, saveStorage } from "../localStorage";
+import { readStorage, saveStorage } from "../common/localStorage";
 
 export const getLanguage = (): string => {
   const language = readStorage("language");

@@ -1,6 +1,8 @@
 import { Button } from "antd";
-import { useEffect, useState } from "react";
-import { PiCheck, PiPen, PiTrash, PiX } from "react-icons/pi";
+import { useCallback, useEffect, useState } from "react";
+import { useToaster } from "react-hot-toast";
+import { PiPen, PiTrash } from "react-icons/pi";
+import { OpportunityStageOptions } from "src/constants/optionList";
 import { opportunityTableCols } from "src/constants/tableItems";
 import useCommon from "src/hooks/useCommon";
 import { Column, Row } from "src/lib/common/Containers/Flex";
@@ -8,6 +10,7 @@ import SelectInput from "src/lib/common/Inputs/SelectInput";
 import TextInput from "src/lib/common/Inputs/TextInput";
 import CollapsibleTable from "src/lib/common/Tables/CollapsibleTable";
 import Text, { getText } from "src/lib/common/Text/Text";
+import { loadAlert, removeAlert } from "src/services/common/toast";
 import {
   deleteOpportunity,
   IOpportunity,
@@ -23,25 +26,35 @@ const OpportunityTable = (props: IOpportunityTable) => {
   const { query, queryDebounce, setQuery, ...hooks } = useCommon();
   const [stage, setStage] = useState("");
   const [opportunityList, setOpportunityList] = useState<IOpportunity[]>();
+  const loading = !!useToaster().toasts.length;
 
-  const onDelete = async (opportunity: IOpportunity) => {
-    await deleteOpportunity(opportunity);
-  };
-
-  useEffect(() => {
+  const loadOpportunities = useCallback(async () => {
     const filters = {
-      query,
+      query: queryDebounce,
       stage,
     };
     const pagination = {
       page: hooks.page,
       pageSize: hooks.pSize,
     };
-    listOpportunities(filters, pagination).then((res) => {
-      const options = res.data.map((item) => ({ ...item, key: item.id }));
-      setOpportunityList(options);
-    });
+    const res = await listOpportunities(filters, pagination);
+    const options = res.data.map((item) => ({ ...item, key: item.id }));
+    setOpportunityList(options);
   }, [query, stage]);
+
+  const onDelete = async (opportunity: IOpportunity) => {
+    await removeAlert(deleteOpportunity(opportunity));
+    loadOpportunities();
+  };
+
+  const onPageChange = (page: number, pageSize: number) => {
+    hooks.setPage(page);
+    hooks.setPSize(pageSize);
+  };
+
+  useEffect(() => {
+    loadAlert(loadOpportunities());
+  }, [loadOpportunities]);
 
   const ActionButtons = (opp: IOpportunity) => (
     <>
@@ -67,13 +80,15 @@ const OpportunityTable = (props: IOpportunityTable) => {
         />
         <SelectInput
           label="Stage"
-          options={[]}
+          options={OpportunityStageOptions}
           value={stage}
           onChange={setStage}
         />
       </Row>
       <CollapsibleTable
         page={hooks.page}
+        loading={loading}
+        onPageChange={onPageChange}
         pageSize={hooks.pSize}
         pageTotal={hooks.pTotal}
         data={opportunityList || []}

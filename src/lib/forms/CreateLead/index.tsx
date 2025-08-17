@@ -8,6 +8,7 @@ import { Row } from "src/lib/common/Containers/Flex";
 import { Button } from "antd";
 import SelectInput from "src/lib/common/Inputs/SelectInput";
 import { LeadStatusOptions } from "src/constants/optionList";
+import { saveAlert } from "src/services/common/toast";
 
 type ILeadFormProps = {
   data?: ILead;
@@ -41,13 +42,14 @@ const resolver: Resolver<typeof initial> = async (data, ctx, opt) => {
 
 const LeadForm = (props: ILeadFormProps) => {
   const { data } = props;
+
   const defaultValues = data ? { ...initial, ...data } : initial;
   const formConfig = { defaultValues, resolver };
   const { register, handleSubmit, formState, ...form } = useForm(formConfig);
 
   const onSubmit = async (data: typeof initial) => {
-    if (data.id) return updateLead(data);
-    return createLead(data);
+    if (data.id) return await saveAlert(updateLead(data));
+    return await saveAlert(createLead(data));
   };
 
   return (
