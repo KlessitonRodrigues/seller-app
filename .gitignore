@@ -4,8 +4,10 @@ out/
 cdk.out/
 dist/
 coverage/
+.expo/
 
 # Files
 *.log
 *.env
+*.apk
 
