@@ -1,7 +1,7 @@
 import { PiHandCoins, PiList, PiPlus, PiUserList } from "react-icons/pi";
 import Title from "src/lib/common/Text/Title";
 
-import { PiDatabase, PiGlobe, PiUser } from "react-icons/pi";
+import { PiDatabase, PiGlobe } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { getLanguage } from "src/services/language";
 import Text from "src/lib/common/Text/Text";
@@ -36,15 +36,6 @@ export const navigationMenuItems: MenuItem[] = [
     ),
     key: "/database",
     icon: <PiDatabase size={20} />,
-  },
-  {
-    label: (
-      <Link to="/about">
-        <Text path="header_menu_about" />
-      </Link>
-    ),
-    key: "/about",
-    icon: <PiUser size={20} />,
   },
   {
     label: getLanguage()?.toUpperCase(),

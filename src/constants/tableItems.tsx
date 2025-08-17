@@ -30,7 +30,6 @@ export const leadTableItems: ColumnsType<ILead> = [
     title: "Status",
     dataIndex: "status",
     key: "status",
-    responsive: ["md"],
   },
   {
     title: "Score",
@@ -38,5 +37,17 @@ export const leadTableItems: ColumnsType<ILead> = [
     key: "score",
     responsive: ["md"],
     render: (score) => (score ? score.toString() : "-"),
+  },
+];
+
+export const opportunityTableCols = [
+  { title: "Name", dataIndex: "name", key: "name" },
+  { title: "Stage", dataIndex: "stage", key: "stage" },
+  { title: "Amount", dataIndex: "amount", key: "amount" },
+  {
+    title: "Account Name",
+    dataIndex: "accountName",
+    key: "accountName",
+    hidden: true,
   },
 ];

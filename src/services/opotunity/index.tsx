@@ -86,7 +86,7 @@ const listOpportunities = async (
 const createOpportunity = async (opportunity: IOpportunity) => {
   await sleep(300);
   const opportunities = getOpportunities();
-  opportunity.id = `${Date.now()}-${Math.random()}`;
+  opportunity.id = Date.now().toString();
   opportunities.push(opportunity);
   saveOpportunities(opportunities);
   return opportunity;
@@ -102,9 +102,11 @@ const updateOpportunity = async (updated: IOpportunity) => {
   }
 };
 
-const deleteOpportunity = async (id: string) => {
+const deleteOpportunity = async (opp: IOpportunity) => {
   await sleep(300);
-  const opportunities = getOpportunities().filter((opp) => opp.id !== id);
+  const opportunities = getOpportunities().filter(
+    (dbOpp) => dbOpp.id !== opp.id
+  );
   saveOpportunities(opportunities);
 };
 

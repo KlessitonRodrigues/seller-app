@@ -108,7 +108,7 @@ const convertToOpportunity = async (lead: ILead) => {
   const leads = getLeads().filter((l) => l.id !== lead.id);
   saveLeads(leads);
   await createOpportunity({
-    id: `${Date.now()}-${Math.random()}`,
+    id: Date.now().toString(),
     name: lead.name,
     accountName: lead.company,
     amount: 0,
