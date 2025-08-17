@@ -12,6 +12,7 @@ import useLeadService from "src/hooks/useLeadService";
 
 type ILeadFormProps = {
   data?: ILead;
+  afterSave?: () => void;
 };
 
 const initial: ILead = {
@@ -40,15 +41,16 @@ const resolver: Resolver<typeof initial> = async (data, ctx, opt) => {
 };
 
 const LeadForm = (props: ILeadFormProps) => {
-  const { data } = props;
+  const { data, afterSave } = props;
   const leadService = useLeadService();
   const defaultValues = data ? { ...initial, ...data } : initial;
   const formConfig = { defaultValues, resolver };
   const { register, handleSubmit, formState, ...form } = useForm(formConfig);
 
   const onSubmit = async (data: typeof initial) => {
-    if (data.id) return await leadService.editLead(data);
-    return await leadService.addLead(data);
+    if (data.id) await leadService.editLead(data);
+    else await leadService.addLead(data);
+    afterSave?.();
   };
 
   return (

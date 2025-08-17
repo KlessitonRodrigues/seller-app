@@ -1,6 +1,6 @@
 import { Tabs } from "antd";
 import { useState } from "react";
-import { PiStorefront } from "react-icons/pi";
+import { PiUserList } from "react-icons/pi";
 import { leadMenuItems } from "src/constants/menuItems";
 import { Card } from "src/lib/common/Cards/Card";
 import If from "src/lib/common/Containers/Conditional";
@@ -20,13 +20,12 @@ const LeadsSection = () => {
   return (
     <Card>
       <Title flex tag="h3" opacity="80">
-        <PiStorefront size={26} className="text-gray-500" />
+        <PiUserList size={26} className="text-gray-500" />
         <Text path="lead_section_title" />
       </Title>
       <Paragraph opacity="70">
         <Text path="lead_section_description" />
       </Paragraph>
-
       <TabContainer>
         <Tabs
           items={leadMenuItems}
@@ -38,7 +37,7 @@ const LeadsSection = () => {
           <LeadsTable onEdit={setEditLead} />
         </If>
         <If check={menuItem === "2"}>
-          <LeadForm />
+          <LeadForm afterSave={() => setMenuItem("1")} />
         </If>
         <If check={!!editLead}>
           <CenteredModal
@@ -46,7 +45,10 @@ const LeadsSection = () => {
             title="Edit Lead"
             onCancel={() => setEditLead(undefined)}
           >
-            <LeadForm data={editLead} />
+            <LeadForm
+              data={editLead}
+              afterSave={() => setEditLead(undefined)}
+            />
           </CenteredModal>
         </If>
       </TabContainer>

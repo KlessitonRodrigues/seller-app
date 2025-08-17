@@ -1,6 +1,6 @@
 import { Tabs } from "antd";
 import { useState } from "react";
-import { PiStorefront } from "react-icons/pi";
+import { PiHandCoins } from "react-icons/pi";
 import { opportunityMenuItems } from "src/constants/menuItems";
 import { Card } from "src/lib/common/Cards/Card";
 import If from "src/lib/common/Containers/Conditional";
@@ -19,11 +19,11 @@ const OpportunitySection = () => {
   return (
     <Card>
       <Title flex tag="h3" opacity="80">
-        <PiStorefront size={26} className="text-gray-500" />
-        <span>{Text({ path: "opportunity_section_title" })}</span>
+        <PiHandCoins size={26} className="text-gray-500" />
+        <Text path="opportunity_section_title" />
       </Title>
       <Paragraph opacity="70">
-        {Text({ path: "opportunity_section_description" })}
+        <Text path="opportunity_section_description" />
       </Paragraph>
       <Tabs
         activeKey={menuItem}
@@ -35,7 +35,7 @@ const OpportunitySection = () => {
         <OpportunityTable onEdit={(opp) => setEditOpp(opp)} />
       </If>
       <If check={menuItem === "2"}>
-        <OpportunityForm />
+        <OpportunityForm afterSave={() => setMenuItem("1")} />
       </If>
       <If check={!!editOpp}>
         <CenteredModal
@@ -43,7 +43,10 @@ const OpportunitySection = () => {
           title="Edit Opportunity"
           onCancel={() => setEditOpp(undefined)}
         >
-          <OpportunityForm data={editOpp} />
+          <OpportunityForm
+            data={editOpp}
+            afterSave={() => setEditOpp(undefined)}
+          />
         </CenteredModal>
       </If>
     </Card>

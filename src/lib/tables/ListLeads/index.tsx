@@ -44,7 +44,7 @@ const LeadsTable = (props: ILeadsTableProps) => {
 
   useEffect(() => {
     leadService.getLeads();
-  }, [leadService.getLeads]);
+  }, [leadService.getLeads, onEdit]);
 
   const ActionButtons = (lead: ILead) => (
     <>

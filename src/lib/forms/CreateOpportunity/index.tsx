@@ -17,6 +17,7 @@ import Text from "src/lib/common/Text/Text";
 
 type IOpportunityForm = {
   data?: IOpportunity;
+  afterSave?: () => void;
 };
 
 const initial: IOpportunity = {
@@ -42,7 +43,7 @@ const resolver: Resolver<typeof initial> = async (data, ctx, opt) => {
 };
 
 const OpportunityForm = (props: IOpportunityForm) => {
-  const { data } = props;
+  const { data, afterSave } = props;
   const defaultValues = data ? { ...initial, ...data } : initial;
   const formConfig = { defaultValues, resolver };
   const { register, handleSubmit, formState, ...form } = useForm(formConfig);
@@ -50,6 +51,7 @@ const OpportunityForm = (props: IOpportunityForm) => {
   const onSubmit = async (data: typeof initial) => {
     if (data.id) await saveAlert(updateOpportunity(data));
     else await saveAlert(createOpportunity(data));
+    afterSave?.();
   };
 
   return (
