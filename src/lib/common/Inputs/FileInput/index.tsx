@@ -22,7 +22,7 @@ const FileInput = (props: IInputField) => {
 
   return (
     <Label>
-      {label}
+      <b className="opacity-75 mb-1">{label}</b>
       <div
         className={`flex justify-between items-center gap-1 bg-white border rounded-md p-2 cursor-pointer
          hover:border-blue-500 text-gray-500`}

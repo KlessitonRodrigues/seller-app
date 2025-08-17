@@ -1,7 +1,7 @@
 import { sleep } from "src/utils/async";
 import { readStorage, saveStorage } from "../localStorage";
 import { createOpportunity } from "../opotunity";
-import { OPPORTUNITY_STAGE } from "src/constants/enums/lead";
+import { LEAD_STATUS, OPPORTUNITY_STAGE } from "src/constants/enums/lead";
 
 export type ILead = {
   id?: string;
@@ -97,9 +97,9 @@ const updateLead = async (updated: ILead): Promise<void> => {
   }
 };
 
-const deleteLead = async (id: string): Promise<void> => {
+const deleteLead = async (lead: ILead) => {
   await sleep(300);
-  const leads = getLeads().filter((lead) => lead.id !== id);
+  const leads = getLeads().filter((dbLead) => dbLead.id !== lead.id);
   saveLeads(leads);
 };
 
@@ -116,6 +116,16 @@ const convertToOpportunity = async (lead: ILead) => {
   });
 };
 
+const rejectLead = async (lead: ILead): Promise<void> => {
+  await sleep(300);
+  const leads = getLeads();
+  const idx = leads.findIndex((l) => l.id === lead.id);
+  if (idx !== -1) {
+    leads[idx] = { ...leads[idx], status: LEAD_STATUS.REJECTED };
+    saveLeads(leads);
+  }
+};
+
 export {
   getLeads,
   saveLeads,
@@ -125,4 +135,5 @@ export {
   updateLead,
   deleteLead,
   convertToOpportunity,
+  rejectLead,
 };

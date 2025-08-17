@@ -5,6 +5,10 @@ import { Form } from "src/lib/common/Containers/Form";
 import { Button } from "antd";
 import { ILead, saveLeads } from "src/services/leads";
 import FileInput from "src/lib/common/Inputs/FileInput";
+import Paragraph from "src/lib/common/Text/Paragraph";
+import { Link } from "react-router-dom";
+import { URLS } from "src/constants/urls";
+import Text from "src/lib/common/Text/Text";
 
 type DataBase = {
   leads: ILead[];
@@ -36,11 +40,8 @@ const DataBaseForm = () => {
   const { register, handleSubmit, formState, ...form } = useForm(formConfig);
 
   const onSubmit = async (data: typeof initial) => {
-    console.log("Data uploaded:", data);
-
     await saveLeads(data.leads);
   };
-  console.log(formState.errors);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -62,6 +63,14 @@ const DataBaseForm = () => {
       <Button htmlType="submit" type="primary">
         Upload data
       </Button>
+      <Paragraph>
+        <Text path="database_example_file" />
+        <Link to={URLS.leadsGist} target="_blank">
+          <Button className="m-2" variant="link">
+            Leads.json
+          </Button>
+        </Link>
+      </Paragraph>
     </Form>
   );
 };

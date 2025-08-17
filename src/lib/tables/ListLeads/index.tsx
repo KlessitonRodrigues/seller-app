@@ -9,7 +9,13 @@ import SelectInput from "src/lib/common/Inputs/SelectInput";
 import TextInput from "src/lib/common/Inputs/TextInput";
 import CollapsibleTable from "src/lib/common/Tables/CollapsibleTable";
 import Text, { getText } from "src/lib/common/Text/Text";
-import { convertToOpportunity, ILead, listLeads } from "src/services/leads";
+import {
+  convertToOpportunity,
+  deleteLead,
+  ILead,
+  listLeads,
+  rejectLead,
+} from "src/services/leads";
 
 type ILeadsTableProps = {
   onEdit?: (lead: ILead) => void;
@@ -29,6 +35,14 @@ const LeadsTable = (props: ILeadsTableProps) => {
 
   const onConvertLead = async (lead: ILead) => {
     await convertToOpportunity(lead);
+  };
+
+  const onRejectLead = async (lead: ILead) => {
+    await rejectLead(lead);
+  };
+
+  const onDeleteLead = async (lead: ILead) => {
+    await deleteLead(lead);
   };
 
   useEffect(() => {
@@ -59,11 +73,11 @@ const LeadsTable = (props: ILeadsTableProps) => {
         <PiCheck size={20} />
         <Text path="lead_action_make_opportunity" />
       </Button>
-      <Button variant="solid" color="yellow">
+      <Button variant="solid" color="yellow" onClick={() => onRejectLead(lead)}>
         <PiX size={20} />
         <Text path="lead_action_refuse" />
       </Button>
-      <Button variant="solid" color="red">
+      <Button variant="solid" color="red" onClick={() => onDeleteLead(lead)}>
         <PiTrash size={20} />
         <Text path="lead_action_delete" />
       </Button>

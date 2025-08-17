@@ -25,7 +25,9 @@
   "opportunity_action_delete": "Delete",
 
   "database_title": "Database",
-  "database_description": "Access our extensive database of products and services. Use the search function to find what you need.",
+  "database_description": "Upload a list of leads to your database. The file should be in JSON format.",
+  "database_upload_button": "Upload Leads",
+  "database_example_file": "You can download the example leads file from the following link:",
 
   "about_title": "About Us",
   "about_description": "Learn more about our mission, vision, and values.",
